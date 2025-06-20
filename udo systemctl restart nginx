@@ -1,0 +1,26 @@
+[0;1;32m●[0m apache2.service - The Apache HTTP Server
+     Loaded: loaded (]8;;file://blazenode/usr/lib/systemd/system/apache2.service/usr/lib/systemd/system/apache2.service]8;;; [0;1;32menabled[0m; preset: [0;1;32menabled[0m)
+     Active: [0;1;32mactive (running)[0m since Tue 2025-06-10 15:05:35 UTC; 1h 58min ago
+       Docs: ]8;;https://httpd.apache.org/docs/2.4/https://httpd.apache.org/docs/2.4/]8;;
+    Process: 40355 ExecReload=/usr/sbin/apachectl graceful (code=exited, status=0/SUCCESS)
+   Main PID: 20992 (apache2)
+      Tasks: 24 (limit: 2320)
+     Memory: 80.1M (peak: 87.5M swap: 3.0M swap peak: 30.3M)
+        CPU: 10.711s
+     CGroup: /system.slice/apache2.service
+             ├─[0;38;5;245m20992 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m40360 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m40361 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m40362 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m40363 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m40364 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m40389 /usr/sbin/apache2 -k start[0m
+             ├─[0;38;5;245m40471 /usr/sbin/apache2 -k start[0m
+             └─[0;38;5;245m40481 /usr/sbin/apache2 -k start[0m
+
+Jun 10 15:05:35 blazenode systemd[1]: Starting apache2.service - The Apache HTTP Server...
+Jun 10 15:05:35 blazenode apachectl[20991]: AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+Jun 10 15:05:35 blazenode systemd[1]: Started apache2.service - The Apache HTTP Server.
+Jun 10 16:50:26 blazenode systemd[1]: Reloading apache2.service - The Apache HTTP Server...
+Jun 10 16:50:26 blazenode apachectl[40358]: AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+Jun 10 16:50:26 blazenode systemd[1]: Reloaded apache2.service - The Apache HTTP Server.

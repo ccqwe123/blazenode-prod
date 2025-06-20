@@ -1,0 +1,15 @@
+php artisan award:points
+php artisan referrals:dispatch-check-jobs
+php artisan queue:work
+php artisan queue:work --queue=default --daemon
+php artisan schedule:work
+
+
+php artisan make:command DispatchReferralCheckJobs
+
+You can run multiple queue workers in parallel to process the jobs faster.
+For example, you can run multiple workers like this:
+- php artisan queue:work --queue=default --daemon
+
+Or run multiple workers by using supervisor (for better process management on production environments):
+- supervisord -c /etc/supervisord.conf
