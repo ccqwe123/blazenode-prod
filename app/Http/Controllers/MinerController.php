@@ -13,41 +13,115 @@ use App\Models\DailyCheckIn;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class MinerController extends Controller
 {
+    public function startv2(Request $request, Miner $miner)
+    {
+        try {
+            $user = auth()->user();
+            $miners = $user->miners;
+
+            $runningMiner = $miners->first(function ($miner) {
+                return $miner->mining_ends_at && now()->lt($miner->mining_ends_at);
+            });
+
+            if ($runningMiner) {
+                return response()->json(['error' => 'One or more miners are still running'], 422);
+            }
+            
+            $duration = 8 * 60 * 60;
+            foreach ($user->miners as $miner) {
+                if ($miner->mining_ends_at && now()->lt($miner->mining_ends_at)) {
+                    continue;
+                }
+
+                $miner->update([
+                    'mining_started_at' => now(),
+                    'mining_ends_at' => now()->addSeconds($duration),
+                    'is_mining' => true,
+                ]);
+
+                broadcast(new MinerStatusUpdated($miner))->toOthers();
+            }
+            $userTotalSecondsMined = MiningSession::where('user_id', $user->id)->sum(DB::raw('TIMESTAMPDIFF(SECOND, started_at, stopped_at)'));
+
+            if ($userTotalSecondsMined < 72 * 60 * 60) { // 259200 seconds or 72 hrs
+                $activeSession = MiningSession::where('user_id', $user->id)
+                ->whereNull('stopped_at')
+                ->where('user_id', $user->id)
+                ->latest()
+                ->first();
+
+                if (!$activeSession) {
+                    MiningSession::create([
+                        'user_id' => $user->id,
+                        'started_at' => now(),
+                        'stopped_at' => now()->addHours(8),
+                    ]);
+                }
+            }
+            $infuraUrl = config('services.infura.url');
+
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/json',
+            ])->post($infuraUrl, [
+                'jsonrpc' => '2.0',
+                'method' => 'eth_blockNumber',
+                'params' => [],
+                'id' => 1,
+            ]);
+
+            if (!$response->successful() || !$response->json('result')) {
+                return back()->with('error', 'Failed to fetch Ethereum block.');
+            }
+            $currentBlock = hexdec($response->json('result'));
+
+            return response()->json([
+                'message' => 'Miner started',
+                'miner' => [
+                    'id' => $miner->id,
+                    'is_mining' => $miner->is_mining,
+                    'mining_ends_at' => $miner->mining_ends_at->toDateTimeString(),
+                    'last_mined_block' => $currentBlock,
+                ],
+            ]);
+        } catch (\Throwable $th) {
+            info($th->getMessage());
+        }
+    }
     public function start(Request $request, Miner $miner)
     {
         try {
             $user = auth()->user();
-        $miners = $user->miners;
+            $miners = $user->miners;
 
-        $runningMiner = $miners->first(function ($miner) {
-            return $miner->mining_ends_at && now()->lt($miner->mining_ends_at);
-        });
+            $runningMiner = $miners->first(function ($miner) {
+                return $miner->mining_ends_at && now()->lt($miner->mining_ends_at);
+            });
 
-        if ($runningMiner) {
-            return response()->json(['error' => 'One or more miners are still running'], 422);
-        }
-
-        $duration = 6 * 60 * 60;
-        // $duration = 10;
-        foreach ($user->miners as $miner) {
-            // Check if miner is already running
-            if ($miner->mining_ends_at && now()->lt($miner->mining_ends_at)) {
-                continue; // Skip this miner, it's still running
+            if ($runningMiner) {
+                return response()->json(['error' => 'One or more miners are still running'], 422);
             }
 
-            $miner->update([
-                'mining_started_at' => now(),
-                'mining_ends_at' => now()->addSeconds($duration),
-                'is_mining' => true,
-            ]);
+            $duration = 6 * 60 * 60;
+            // $duration = 10;
+            foreach ($user->miners as $miner) {
+                if ($miner->mining_ends_at && now()->lt($miner->mining_ends_at)) {
+                    continue;
+                }
 
-            broadcast(new MinerStatusUpdated($miner))->toOthers();
-        }
+                $miner->update([
+                    'mining_started_at' => now(),
+                    'mining_ends_at' => now()->addSeconds($duration),
+                    'is_mining' => true,
+                ]);
+
+                broadcast(new MinerStatusUpdated($miner))->toOthers();
+            }
         $userTotalSecondsMined = MiningSession::where('user_id', $user->id)->sum(DB::raw('TIMESTAMPDIFF(SECOND, started_at, stopped_at)'));
-        info("User total seconds mined: $userTotalSecondsMined");
+
         if ($userTotalSecondsMined < 72 * 60 * 60) { // 259200 seconds
             $activeSession = MiningSession::where('user_id', $user->id)
             ->whereNull('stopped_at')

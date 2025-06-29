@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import axios from 'axios';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
@@ -69,7 +69,8 @@ const Register = () => {
             });
 
             setTimeout(() => {
-                window.location.href = '/login';
+                // window.location.href = '/login';
+                router.visit('/login');
             }, 1500);
         } catch (error: any) {
             console.log('Register error:', error.response?.data?.message || error.message);

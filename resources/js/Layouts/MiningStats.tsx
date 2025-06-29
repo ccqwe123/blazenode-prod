@@ -5,7 +5,7 @@ import { useCountdown } from '@/hooks/use-countdown';
 import axios from '@/lib/axios';
 import { useToast } from '@/hooks/use-toast';
 import { eachDayOfInterval, format, parseISO, startOfMonth, endOfMonth } from 'date-fns';
-
+import '../Components/MineButton.css';
 import { Miner } from '@/interface/miners';
 import { StatSkeleton, StatCardSkeleton, ChartSkeleton } from '@/hooks/use-skeleton';
 import {
@@ -248,12 +248,12 @@ const MiningStats = React.memo(({ miners, isLoading, minersCount, onRefetchMiner
                 </CardHeader>
                 <CardContent>
                 <div className="flex items-end justify-between mt-3">
-                <MineButton
-                    text={isLoadingStart ? 'Starting...' : isFinished ? 'Start Mining' : timeLeft}
-                    variant={isFinished ? 'danger' : 'success'}
-                    onClick={handleStart}
-                    disabled={isLoadingStart}
-                />
+                    <MineButton
+                        text={isLoadingStart ? 'Starting...' : isFinished ? 'Start Mining' : timeLeft}
+                        variant={isFinished ? 'danger' : 'success'}
+                        onClick={handleStart}
+                        disabled={isLoadingStart}
+                    />
                 </div>
                 </CardContent>
             </Card>

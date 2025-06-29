@@ -27,7 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [MinerController::class, 'me']);
 
     Route::get('/user/nodes', [MinerController::class, 'userMiners']);
-    Route::post('/nodes/{miner}/start', [MinerController::class, 'start']);
+    Route::post('/nodes/{miner}/start', [MinerController::class, 'startv2']);
     Route::get('/user/points', [MinerController::class, 'points']);
     Route::get('/user/points/daily', [MinerController::class, 'pointsDaily']); //chart points daily
     Route::post('/user/node/upgrade/step1', [MinerController::class, 'upgrade']);
@@ -42,4 +42,5 @@ Route::post('/early-access/{action}', [EarlyAccessController::class, 'show']);
 Route::post('/waitlist', [EarlyAccessController::class, 'waitlist']);
 Route::post('/early-user',[EarlyAccessController::class, 'createUser']);
 Route::get('/early-users/leaderboard',[EarlyAccessController::class, 'leaderboard']);
+
 

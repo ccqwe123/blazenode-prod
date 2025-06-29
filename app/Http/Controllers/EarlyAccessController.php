@@ -37,8 +37,6 @@ class EarlyAccessController extends Controller
 
     public function show(Request $request, $action)
     {
-        info($action);
-        info($request);
         $wallet = $request->input('walletAddress');
         if (!$wallet) {
             return response()->json([
@@ -81,7 +79,10 @@ class EarlyAccessController extends Controller
     {
         $wallet = $request->input('walletAddress');
         $earlyAccess = EarlyAccess::where('wallet_address', $wallet)->firstOrFail();
-
+        if($earlyAccess){
+            $earlyAccess->completed_at = now();
+            $earlyAccess->save();
+        }
         return response()->json([
             'id' => $earlyAccess->id,
             'walletAddress' => $earlyAccess->wallet_address,
@@ -149,8 +150,10 @@ class EarlyAccessController extends Controller
     public function leaderboard(Request $request)
     {
         $users = User::withCount('referrals')
-        ->orderBy('created_at')
-        // ->take(100)
+        ->join('early_accesses','users.wallet_address','=','early_accesses.wallet_address')
+        ->orderBy('users.created_at')
+        ->whereNotNull('early_accesses.completed_at')
+        ->take(100)
         ->get()
         ->map(function ($user) {
             return [
@@ -159,6 +162,15 @@ class EarlyAccessController extends Controller
                 'joined_at' => Carbon::parse($user->created_at)->format('F d, Y'),
             ];
         });
+        
         return response()->json($users);
+    }
+
+    public function counter()
+    {
+        $a = EarlyAccess::count();
+        $b = EarlyAccess::whereNotNull('completed_at')->count();
+        $c = ['total user'=>$a, 'total completed task'=>$b];
+        return $c;
     }
 }

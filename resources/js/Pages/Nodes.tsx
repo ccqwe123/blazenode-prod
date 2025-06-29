@@ -235,7 +235,7 @@ const MinersContent = () => {
                                     className="bg-black/95 border-gray-800 h-[280px] select-none text-gray-500 font-mono p-4 shadow-lg max-w-xl mx-5 rounded-lg">
                                 <div className="space-y-4">
                                     <div className="h-[250px] overflow-y-auto space-y-1 text-xs scrollbar-thin scrollbar-thumb-gray-700">
-                                        <span className="text-green-500">root@{miner.ip_address}:~$:</span><span className="text-gray-500"> winget minegrid --upgrade</span>
+                                        <span className="text-green-500">root@{miner.ip_address}:~$:</span><span className="text-gray-500"> winget blazenode node --upgrade</span>
                                         {terminalLines.map((line, index) => (
                                             <div key={index}>
                                                 {line}

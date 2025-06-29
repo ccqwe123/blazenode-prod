@@ -73,19 +73,19 @@ class RegisteredUserController extends Controller
         ]);
 
         // Create a free node for the user
-        $miner = Miner::create([
-            'user_id' => $user->id,
-            'name' => 'Free Node',
-            'node_id' => $this->generateUniqueNodeId(),
-            'ip_address' => $this->generateRandomUSIp(),
-            'level' => 1,
-            'mining_speed' => 1,
-            'is_mining' => 1,
-            'is_active' => 1,
-            'is_free' => 1,
-            'earned_points' => 0,
-        ]);
-        event(new Registered($user));
+        // $miner = Miner::create([
+        //     'user_id' => $user->id,
+        //     'name' => 'Free Node',
+        //     'node_id' => $this->generateUniqueNodeId(),
+        //     'ip_address' => $this->generateRandomUSIp(),
+        //     'level' => 1,
+        //     'mining_speed' => 1,
+        //     'is_mining' => 1,
+        //     'is_active' => 1,
+        //     'is_free' => 1,
+        //     'earned_points' => 0,
+        // ]);
+        // event(new Registered($user));
         $existingReferral = User::where('ip_address', $userIp)
             ->whereHas('referredBy')
             ->exists();
@@ -97,7 +97,7 @@ class RegisteredUserController extends Controller
             ]);
         }
         Auth::login($user);
-
+        info("success register");
         // return redirect(RouteServiceProvider::HOME);
         return response()->json([
             'message' => 'Account created successfully.',

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\EarlyAccessController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,8 +30,8 @@ Route::get('/migrate-fresh', function () {
 Route::get('/logout', function () { Auth::logout(); return redirect('/login'); });
 
 Route::get('/', function () {
-    return view('wait');
-    // return redirect('/login');
+    // return view('wait');
+    return redirect('/login');
 });
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', fn () => Inertia::render('Dashboard'))->name('dashboard');
@@ -64,5 +65,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+Route::get('/abc123', [EarlyAccessController::class, 'counter']);
 require __DIR__.'/auth.php';

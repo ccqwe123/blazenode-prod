@@ -52,7 +52,6 @@ class AwardMiningPoints implements ShouldQueue
                 $referral = $this->user->referredBy()->where('status', 'confirmed')->first();
 
                 if ($referral && $this->user->referrer) {
-                    info("Referral found");
                     $referralCommission = $this->calculateReferralCommission($pointsToAward);
                     $this->updateReferralCommission($this->user, $miner, $referralCommission);
                     $referral->referrer->increment('total_points', $referralCommission);
@@ -64,7 +63,6 @@ class AwardMiningPoints implements ShouldQueue
                     ->first();
 
                 if (!$existingPoint) {
-                    info("Creating new point from awarMiningPoints job");
                     Point::create([
                         'user_id' => $this->user->id,
                         'miner_id' => $miner->id,
