@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "75c4a128ab988a98c2cd36ffa58ea26f",
+    "content-hash": "3c26464eac660768747a687ade472938",
     "packages": [
         {
             "name": "brick/math",
@@ -723,6 +723,69 @@
                 "source": "https://github.com/genkgo/php-asn1/tree/v2.8.0"
             },
             "time": "2025-02-12T20:20:53+00:00"
+        },
+        {
+            "name": "getbrevo/brevo-php",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/getbrevo/brevo-php.git",
+                "reference": "6c3286e62327277fd8445cddb057d44e850722c0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/getbrevo/brevo-php/zipball/6c3286e62327277fd8445cddb057d44e850722c0",
+                "reference": "6c3286e62327277fd8445cddb057d44e850722c0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "guzzlehttp/guzzle": "^7.4.0",
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~1.12",
+                "phpunit/phpunit": "^4.8",
+                "squizlabs/php_codesniffer": "~2.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Brevo\\Client\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brevo Developers",
+                    "email": "contact@brevo.com",
+                    "homepage": "https://www.brevo.com/"
+                }
+            ],
+            "description": "Official Brevo provided RESTFul API V3 php library",
+            "homepage": "https://github.com/getbrevo/brevo-php",
+            "keywords": [
+                "api",
+                "brevo",
+                "php",
+                "sdk",
+                "swagger"
+            ],
+            "support": {
+                "issues": "https://github.com/getbrevo/brevo-php/issues",
+                "source": "https://github.com/getbrevo/brevo-php/tree/v1.0.2"
+            },
+            "time": "2023-07-14T10:00:50+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -1717,6 +1780,86 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2025-03-12T14:42:01+00:00"
+        },
+        {
+            "name": "laravel/horizon",
+            "version": "v5.33.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/horizon.git",
+                "reference": "50057bca1f1dcc9fbd5ff6d65143833babd784b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/horizon/zipball/50057bca1f1dcc9fbd5ff6d65143833babd784b3",
+                "reference": "50057bca1f1dcc9fbd5ff6d65143833babd784b3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-pcntl": "*",
+                "ext-posix": "*",
+                "illuminate/contracts": "^9.21|^10.0|^11.0|^12.0",
+                "illuminate/queue": "^9.21|^10.0|^11.0|^12.0",
+                "illuminate/support": "^9.21|^10.0|^11.0|^12.0",
+                "nesbot/carbon": "^2.17|^3.0",
+                "php": "^8.0",
+                "ramsey/uuid": "^4.0",
+                "symfony/console": "^6.0|^7.0",
+                "symfony/error-handler": "^6.0|^7.0",
+                "symfony/polyfill-php83": "^1.28",
+                "symfony/process": "^6.0|^7.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.0",
+                "orchestra/testbench": "^7.0|^8.0|^9.0|^10.0",
+                "phpstan/phpstan": "^1.10",
+                "phpunit/phpunit": "^9.0|^10.4|^11.5",
+                "predis/predis": "^1.1|^2.0"
+            },
+            "suggest": {
+                "ext-redis": "Required to use the Redis PHP driver.",
+                "predis/predis": "Required when not using the Redis PHP driver (^1.1|^2.0)."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Horizon": "Laravel\\Horizon\\Horizon"
+                    },
+                    "providers": [
+                        "Laravel\\Horizon\\HorizonServiceProvider"
+                    ]
+                },
+                "branch-alias": {
+                    "dev-master": "6.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Horizon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Dashboard and code-driven configuration for Laravel queues.",
+            "keywords": [
+                "laravel",
+                "queue"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/horizon/issues",
+                "source": "https://github.com/laravel/horizon/tree/v5.33.1"
+            },
+            "time": "2025-06-16T13:48:30+00:00"
         },
         {
             "name": "laravel/prompts",

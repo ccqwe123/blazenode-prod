@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->job(new UpdateAllActiveMinersPoints)->everyThreeMinutes()->onOneServer();
         $schedule->command('award:points')->everyFiveMinutes();
+        // $schedule->command('award:points')->everyFiveMinutes()->appendOutputTo(storage_path('logs/scheduler.log'));
         $schedule->command('referrals:dispatch-check-jobs')->everyFiveMinutes();
         $schedule->command('referrals:check-rewards')->everyFiveMinutes();
         // $schedule->command('referrals:dispatch-check-jobs')->everyMinute();

@@ -165,7 +165,7 @@ const MiningStats = React.memo(({ miners, isLoading, minersCount, onRefetchMiner
     }
     return (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <div className="col-span-full text-black-1 text-3xl md:text-4xl font-medium flex-row-center flex-justify-start my-5">GM, Spleken! 👋</div>
+            <div className="col-span-full text-black-1 text-3xl md:text-4xl font-medium flex-row-center flex-justify-start my-5">GM, Blazers! 👋</div>
             <Card className="roller-card h-[150px] md:col-span-2 lg:col-span-1 flex flex-col justify-between">
                 <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium text-white/70 flex items-center gap-2">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Users, Gift, CircleUserRound, Settings, LogOut, ChevronRight, Copy } from 'lucide-react';
+import { Users, Gift, CircleUserRound, LogOut, ChevronRight, Copy } from 'lucide-react';
 import axios from 'axios';
 import { Button } from '@/Components/button';
 import { useSidebar } from '@/hooks/use-sidebar';
@@ -9,6 +9,8 @@ import VantaBackground from '@/Components/vantabackground'
 import { router } from '@inertiajs/react';
 import { useToast } from '@/hooks/use-toast';
 import confetti from 'canvas-confetti';
+import { Link } from '@inertiajs/react';
+import UserProfileModal from '@/Components/modals/UserProfileModal';
 
 const Header: React.FC = () => {
     const { toast } = useToast();
@@ -16,14 +18,18 @@ const Header: React.FC = () => {
     const [isClaimed, setIsClaimed] = useState(false);
     const [walletAddress, setWalletAddress] = useState('');
     const [emailAddress, setEmailAddress] = useState('');
-    const [avatarUri, setAvatarUri] = useState<string>('');
     const [refcode, setRefCode] = useState('');
     const [referralCount, setReferralCount] = useState(0);
-    const [showModal, setShowModal] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [totalPoints, setTotalPoints] = useState<string>('0.00000000');
     const [streakDays, setStreakDays] = useState<string[]>([]);
-
+    const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+    const currentUser = {
+      name: 'Sarah Johnson',
+      email: 'sarah.johnson@example.com',
+      username: 'sarah_j',
+      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b784?w=150&h=150&fit=crop&crop=face'
+    };
     function formatWalletAddress(address: string) {
       if (!address) return '';
       const start = address.slice(0, 5);
@@ -102,7 +108,7 @@ const Header: React.FC = () => {
       router.post('/logout');
     };
   return (
-
+    <>
     <header className={cn(
       "fixed top-0 right-0 z-20 flex items-center h-16 bg-black transition-all duration-300",
       isMobile ? "left-0" : collapsed ? "left-[70px]" : "left-[300px]"
@@ -201,24 +207,24 @@ const Header: React.FC = () => {
                                       </div>
                                   </div>
                               </div>
-                              <div className="hover-group mx-6 flex cursor-pointer items-center justify-between rounded-lg px-4 pb-[11px] pt-[30px] text-[#595A5F] hover:border-[#000000]">
-                                  <div className="flex items-center gap-2">
-                                      <CircleUserRound className="h-[18px] w-[18px]" />
-                                      <span className="text-sm font-medium text-[#595A5F]">Profile</span>
-                                  </div>
-                                  <div>
-                                      <ChevronRight className="h-auto w-[15px] text-gray-500" />
-                                  </div>
+                              <div onClick={() => setIsProfileModalOpen(true)} className="hover-group mx-6 flex cursor-pointer items-center justify-between rounded-lg px-4 pb-[11px] pt-[30px] text-[#595A5F] hover:border-[#000000]">
+                                    <div className="flex items-center gap-2">
+                                        <CircleUserRound className="h-[18px] w-[18px]" />
+                                        <span className="text-sm font-medium text-[#595A5F]">Profile</span>
+                                    </div>
+                                    <div>
+                                        <ChevronRight className="h-auto w-[15px] text-gray-500" />
+                                    </div>
                               </div>
-                              <div className="hover-group mx-6 flex cursor-pointer items-center justify-between rounded-lg px-4 pb-[30px] pt-[11px] text-[#595A5F] hover:border-[#000000]">
-                                  <div className="flex items-center gap-2">
+                              {/* <div className="hover-group mx-6 flex cursor-pointer items-center justify-between rounded-lg px-4 pb-[30px] pt-[11px] text-[#595A5F] hover:border-[#000000]"> */}
+                                  {/* <div className="flex items-center gap-2">
                                       <Settings className="h-[18px] w-[18px]" />
                                       <span className="text-sm font-medium text-[#595A5F]">Settings</span>
-                                  </div>
-                                  <div>
+                                  </div> */}
+                                  {/* <div>
                                       <ChevronRight className="h-auto w-[15px] text-gray-500" />
-                                  </div>
-                              </div>
+                                  </div> */}
+                              {/* </div> */}
                               <div className="mx-6 flex cursor-pointer items-center justify-start rounded-b-lg border-t border-[#EAEAEA] px-4 pb-[21px] pt-[17px]">
                                   <LogOut className="mr-2 h-[18px] w-[18px] text-gray-700" />
                                   <span className="hover-span text-[14px] font-normal text-[#595A5F]" onClick={handleSignOut}>Sign out</span>
@@ -231,6 +237,12 @@ const Header: React.FC = () => {
       </div>
       </div>
     </header>
+    <UserProfileModal 
+        isOpen={isProfileModalOpen}
+        onClose={() => setIsProfileModalOpen(false)}
+        user={currentUser}
+      />
+    </>
   );
 };
 

@@ -13,6 +13,9 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
+    'brevo' => [
+        'api_key' => env('BREVO_API_KEY'),
+    ],
     'infura' => [
         'url' => env('INFURA_URL'),
     ],

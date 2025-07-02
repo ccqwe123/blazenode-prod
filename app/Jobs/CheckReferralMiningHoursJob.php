@@ -31,15 +31,11 @@ class CheckReferralMiningHoursJob implements ShouldQueue
             ->whereNotNull('stopped_at')
             ->selectRaw('SUM(TIMESTAMPDIFF(SECOND, started_at, stopped_at)) as total_seconds')
             ->value('total_seconds') ?? 0;
-        // info("CheckReferralMiningHoursJob");
-        // info("Total seconds: $totalSeconds");
-        // info("user_id: $this->referral->referred_user_id");
         if ($totalSeconds >= 259200) {
             $this->referral->update([
                 'status' => 'confirmed',
                 'qualified_at' => now(),
             ]);
-            // info("Referral qualified");
         }
     }
 }

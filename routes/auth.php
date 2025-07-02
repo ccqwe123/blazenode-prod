@@ -54,10 +54,12 @@ Route::middleware('auth')->group(function () {
         return redirect('/login')->with('status', 'Your email has been verified. Please login to continue.');
     })->middleware(['auth', 'signed'])->name('verification.verify');
 
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-        return back()->with('message', 'Verification link sent!');
-    })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+    Route::post('/email/resend', [RegisteredUserController::class, 'resend'])->name('verification.send');;
+
+    // Route::post('/email/verification-notification', function (Request $request) {
+    //     $request->user()->sendEmailVerificationNotification();
+    //     return back()->with('message', 'Verification link sent!');
+    // })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
     // Route::get('verify-email', EmailVerificationPromptController::class)
     //             ->name('verification.notice');

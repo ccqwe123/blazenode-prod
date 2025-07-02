@@ -75,7 +75,7 @@ export default {
 					secondary: '#ff603dde',
 				},
 				roller: {
-					primary: '#7B61FF',
+					primary: '#a80019',
 					secondary: '#9881FF',
 					accent: '#FFD166',
 					dark: '#1E1C3A',

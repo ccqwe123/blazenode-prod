@@ -3,11 +3,6 @@ import { Link } from '@inertiajs/react';
 import {
   Home,
   Cpu,
-  Trophy,
-  Wallet,
-  Users,
-  ShoppingCart,
-  Newspaper,
   ExternalLink ,
   UserPlus
 } from 'lucide-react';
@@ -17,15 +12,12 @@ const navItems = [
     { icon: Home, label: 'Dashboard', path: '/dashboard', active: true },
     { icon: Cpu, label: 'Nodes', path: '/nodes', active: false },
     { icon: UserPlus, label: 'Referrals', path: '/referrals', active: false },
-    { icon: ShoppingCart, label: 'Market', path: '/market', active: false },
 ];
 const cacheImage = async (src) => {
-    // Check if image is already cached
     if (sessionStorage.getItem(src)) {
-      return sessionStorage.getItem(src) as string; // Return cached image
+      return sessionStorage.getItem(src) as string;
     }
 
-    // If not cached, fetch and cache the image
     const response = await fetch(src);
     const blob = await response.blob();
     const reader = new FileReader();
@@ -34,8 +26,8 @@ const cacheImage = async (src) => {
         reader.onloadend = function () {
           const base64data = reader.result;
           if (base64data && typeof base64data === 'string') {
-            sessionStorage.setItem(src, base64data); // Cache the image
-            resolve(base64data); // Return base64 data
+            sessionStorage.setItem(src, base64data);
+            resolve(base64data);
           } else {
             reject(new Error('Failed to convert image to base64.'));
           }
@@ -45,7 +37,7 @@ const cacheImage = async (src) => {
           reject(new Error('Failed to read image.'));
         };
 
-        reader.readAsDataURL(blob); // Convert to base64
+        reader.readAsDataURL(blob);
     });
 };
 
@@ -63,13 +55,12 @@ const Sidebar = () => {
                 const telegram = await cacheImage("/assets/images/telegram.svg");
                 const logo = await cacheImage("/assets/images/Blazenode.svg");
 
-              setTwitterImage(twitter);  // twitter is typed as string
-              setDiscordImage(discord);  // discord is typed as string
-              setTelegramImage(telegram); // telegram is typed as string
+              setTwitterImage(twitter);  
+              setDiscordImage(discord);  
+              setTelegramImage(telegram);
               setLogo(logo);
             } catch (error: unknown) {
               console.error('Error caching images:', error);
-              // Optionally handle the error state here if needed
             }
           };
 

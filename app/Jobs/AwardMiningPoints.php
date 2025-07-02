@@ -31,6 +31,7 @@ class AwardMiningPoints implements ShouldQueue
      */
     public function handle(): void
     {
+        info("AwardMiningPoints");
         $now = now();
         $today = $now->toDateString();
         $miners = $this->user->miners()->where('is_active', 1)

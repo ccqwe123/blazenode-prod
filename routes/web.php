@@ -19,15 +19,8 @@ use App\Http\Controllers\EarlyAccessController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/migrate', function () {
-    Artisan::call('migrate', ['--force' => true]);
-    return 'Migrations done!';
-});
-Route::get('/migrate-fresh', function () {
-    Artisan::call('migrate:fresh');
-    return 'Migrations done!';
-});
-Route::get('/logout', function () { Auth::logout(); return redirect('/login'); });
+
+Route::get('/kill-user', function () { Auth::logout(); return redirect('/login'); });
 
 Route::get('/', function () {
     // return view('wait');
@@ -37,6 +30,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', fn () => Inertia::render('Dashboard'))->name('dashboard');
     Route::get('/nodes', fn () => Inertia::render('Nodes'))->name('nodes');
     Route::get('/referrals', fn () => Inertia::render('Referral'))->name('referrals');
+    Route::get('/profile', fn () => Inertia::render('ProfileView'))->name('profile.view');
     Route::post('/daily-checkin', [CheckInController::class, 'claim']);
 });
 Route::middleware(['web'])->group(function () {
@@ -44,26 +38,11 @@ Route::middleware(['web'])->group(function () {
         return response()->json(['csrf' => csrf_token()]);
     });
 });
-// Route::middleware(['auth', 'verified'])->group(function () {
-//     Route::get('/dashboard', function () {
-//         return Inertia::render('Dashboard', [
-//             'auth' => [
-//                 'user' => Auth::user(),
-//             ],
-//         ]);
-//     })->name('dashboard');
 
-//     Route::get('/nodes', function () {
-//         return Inertia::render('Miners', [
-//             'auth' => Auth::user(),
-//         ]);
-//     })->name('miners');
+// Route::middleware('auth')->group(function () {
+//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 // });
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 Route::get('/abc123', [EarlyAccessController::class, 'counter']);
 require __DIR__.'/auth.php';

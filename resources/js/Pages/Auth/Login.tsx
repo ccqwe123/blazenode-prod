@@ -104,17 +104,6 @@ const Login = () => {
                 signedMessage: signature,
                 message: message
             });
-            // const response = await fetch('/api/web3/verify-signature', {
-            //     method: 'POST',
-            //     headers: {
-            //     'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify({
-            //         address: await signer.getAddress(),
-            //         signedMessage: signature,
-            //         message: message
-            //     })
-            // });
             const token = response.data.token;
 
             if (token) {

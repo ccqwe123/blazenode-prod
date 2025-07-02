@@ -22,7 +22,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 // Route::post('/miners/{miner}/start', [MinerController::class, 'start'])->middleware('auth')->name('miners.start');
-
+Route::middleware('auth:sanctum')->get('/check-token', function () {
+    return response()->json(['user' => Auth::user()]);
+});
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/me', [MinerController::class, 'me']);
 

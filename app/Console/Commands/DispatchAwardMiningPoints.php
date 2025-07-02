@@ -28,12 +28,28 @@ class DispatchAwardMiningPoints extends Command
      */
     public function handle()
     {
-        User::with('miners')->chunk(500, function ($users) {
+        // User::with('miners')->chunk(500, function ($users) {
+        //     foreach ($users as $user) {
+        //         dispatch((new AwardMiningPoints($user))->delay(now()->addSeconds(5)));
+        //     }
+        // });
+        User::whereHas('miners', function ($query) {
+            $query->where('is_active', 1)
+                ->whereNotNull('mining_started_at')
+                ->whereNotNull('mining_ends_at')
+                ->where('mining_ends_at', '>=', now());
+        })
+        ->with(['miners' => function ($query) {
+            $query->where('is_active', 1)
+                ->whereNotNull('mining_started_at')
+                ->whereNotNull('mining_ends_at')
+                ->where('mining_ends_at', '>=', now());
+        }])
+        ->chunk(500, function ($users) {
             foreach ($users as $user) {
                 dispatch((new AwardMiningPoints($user))->delay(now()->addSeconds(5)));
             }
         });
-
         $this->info('AwardMiningPoints jobs dispatched for all users.');
     }
 }

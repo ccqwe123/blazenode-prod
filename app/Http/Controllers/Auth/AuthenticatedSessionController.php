@@ -20,6 +20,12 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
+        $user = Auth::user();
+        if($user){
+            Auth::guard('web')->logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
@@ -31,14 +37,6 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request)
     {
-        // $credentials = $request->only('email', 'password');
-
-        // if (Auth::attempt($credentials)) {
-        //     $request->session()->regenerate(); // Important
-        //     return response()->json(['message' => 'Login successful']);
-        // }
-        // return response()->json(['message' => 'Invalid credentials'], 401);
-
         $request->authenticate();
 
         $request->session()->regenerate();
